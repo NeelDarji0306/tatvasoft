@@ -1,0 +1,134 @@
+<h2>Reactive Form</h2>
+<hr />
+
+<form [formGroup]="userForm" #form="ngForm" (ngSubmit)="saveData()">
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      name="name"
+      formControlName="name"
+      required=""
+    />
+    <div
+      class="text-danger"
+      *ngIf="
+        userForm.controls['name'].errors &&
+        (form.submitted || userForm.controls['name'].touched)
+      "
+    >
+      <span
+        [hidden]="!userForm.controls['name'].errors['required']"
+        class="text-danger"
+        >Please Enter Name</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      name="email"
+      formControlName="email"
+    />
+    <div
+      class="text-danger"
+      *ngIf="
+        userForm.controls['email'].errors &&
+        (form.submitted || userForm.controls['email'].touched)
+      "
+    >
+      <span
+        [hidden]="!userForm.controls['email'].errors['required']"
+        class="text-danger"
+        >Please Enter Email</span
+      >
+      <span
+        [hidden]="!userForm.controls['email'].errors['email']"
+        class="text-danger"
+        >Please Enter Correct Email</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      name="password"
+      formControlName="password"
+    />
+    <div
+      class="text-danger"
+      *ngIf="
+        userForm.controls['password'].errors &&
+        (form.submitted || userForm.controls['password'].touched)
+      "
+    >
+      <span
+        [hidden]="!userForm.controls['password'].errors['required']"
+        class="text-danger"
+        >Please Enter Password</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="cPass" class="form-label">Confirm Password</label>
+    <input
+      type="password"
+      class="form-control"
+      name="confirmPassword"
+      formControlName="confirmPassword"
+    />
+    <div
+      class="text-danger"
+      *ngIf="
+        userForm.controls['confirmPassword'].errors &&
+        (form.submitted || userForm.controls['confirmPassword'].touched)
+      "
+    >
+      <span
+        [hidden]="!userForm.controls['confirmPassword'].errors['required']"
+        class="text-danger"
+        >Please Enter Confirm Password</span
+      >
+      <span
+        [hidden]="
+          !(
+            !userForm.controls['confirmPassword'].errors['required'] &&
+            userForm.controls['confirmPassword'].errors['matchValue']
+          )
+        "
+        class="text-danger"
+        >Password does not match</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="contact" class="form-label">Contact</label>
+    <input
+      type="text"
+      class="form-control"
+      name="contact"
+      formControlName="contact"
+    />
+  </div>
+  <div
+    class="text-danger"
+    *ngIf="
+      userForm.controls['contact'].errors &&
+      (form.submitted || userForm.controls['contact'].touched)
+    "
+  >
+    <span
+      [hidden]="!userForm.controls['contact'].errors['pattern']"
+      class="text-danger"
+      >Please Enter Valid Phone number</span
+    >
+  </div>
+  <div class="mb-3">
+    <input type="submit" value="Register" class="btn btn-primary" />
+  </div>
+</form>

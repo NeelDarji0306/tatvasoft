@@ -1,0 +1,98 @@
+<h2>Templated Form</h2>
+<hr />
+
+<form #form="ngForm" (ngSubmit)="saveData(form)">
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      name="name"
+      #name="ngModel"
+      [(ngModel)]="user.name"
+      required=""
+    />
+    <div
+      class="text-danger"
+      *ngIf="name?.hasError && (form.submitted || name.touched)"
+    >
+      <span [hidden]="!name.hasError('required')" class="text-danger"
+        >Please Enter Name</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      name="email"
+      #email="ngModel"
+      [(ngModel)]="user.email"
+      required=""
+      email
+    />
+    <div
+      class="text-danger"
+      *ngIf="email?.hasError && (form.submitted || email.touched)"
+    >
+      <span [hidden]="!email.hasError('required')" class="text-danger"
+        >Please Enter Email</span
+      >
+      <span [hidden]="!email.hasError('email')" class="text-danger"
+        >Please Enter Correct Email</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      name="password"
+      #password="ngModel"
+      [(ngModel)]="user.pass"
+      required=""
+    />
+    <div
+      class="text-danger"
+      *ngIf="password?.hasError && (form.submitted || password.touched)"
+    >
+      <span [hidden]="!password.hasError('required')" class="text-danger"
+        >Please Enter Password</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="cPass" class="form-label">Confirm Password</label>
+    <input
+      type="text"
+      class="form-control"
+      name="cPass"
+      #cPass="ngModel"
+      [(ngModel)]="user.cPass"
+      required=""
+    />
+    <div
+      class="text-danger"
+      *ngIf="cPass?.hasError && (form.submitted || cPass.touched)"
+    >
+      <span [hidden]="!cPass.hasError('required')" class="text-danger"
+        >Please Enter Confirm Password</span
+      >
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="contact" class="form-label">Contact</label>
+    <input
+      type="text"
+      class="form-control"
+      name="contact"
+      #contact="ngModel"
+      [(ngModel)]="user.contact"
+    />
+  </div>
+  <div class="mb-3">
+    <input type="submit" value="Register" class="btn btn-primary" />
+  </div>
+</form>
