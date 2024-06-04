@@ -60,7 +60,7 @@ export class AdminsideServiceService {
     return this.http.post(`${this.apiUrl}/Common/UploadImage`,data);
   }
   UploadDoc(data: any) {
-    return this.http.post(`${this.apiUrl}/Mission/UploadImage`,data);
+    return this.http.post(`${this.apiUrl}/Common/UploadImage`,data);
   }
   MissionList(): Observable<Mission[]> {
     return this.http.get<Mission[]>(`${this.apiUrl}/Mission/MissionList`);

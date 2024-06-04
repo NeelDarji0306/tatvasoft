@@ -38,6 +38,10 @@ builder.Services.AddScoped<BALMissionSkill>();
 builder.Services.AddScoped<DALMissionSkill>();
 builder.Services.AddScoped<BALMissionTheme>();
 builder.Services.AddScoped<DALMissionTheme>();
+builder.Services.AddScoped<BALMission>();
+builder.Services.AddScoped<DALMission>();
+builder.Services.AddScoped<BALCommon>();
+builder.Services.AddScoped<DALCommon>();
 builder.Services.AddScoped<JwtService>();
 
 builder.Services.AddCors(option =>
@@ -57,6 +61,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseCors("MyPolicy");
 

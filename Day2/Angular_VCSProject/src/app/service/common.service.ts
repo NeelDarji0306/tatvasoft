@@ -10,6 +10,7 @@ export class CommonService {
   constructor(private http:HttpClient) { }
   apiUrl:string='https://localhost:44332/api';
   imageUrl:string='https://localhost:44332';
+  // imageUrl:string='C:/tatvasoft/Day6';
   searchList : BehaviorSubject<any> = new BehaviorSubject<any>('');
 
   GetMissionCountryList(){

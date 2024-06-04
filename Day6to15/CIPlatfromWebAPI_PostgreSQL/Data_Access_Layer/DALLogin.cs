@@ -152,6 +152,7 @@ namespace Data_Access_Layer
                         CreatedDate = DateTime.UtcNow,
                         IsDeleted = false
                     };
+
                     _cIDbContext.User.Add(newUser);
                     _cIDbContext.SaveChanges();
                     var newUserDetail = new UserDetail
@@ -166,7 +167,8 @@ namespace Data_Access_Layer
                         Surname = user.LastName,
                         EmployeeId = newEmployeeId.ToString(),
                         Department = "IT",
-                        Status = true
+                        Status = true,
+                        CreatedDate = DateTime.UtcNow,
                     };
                     _cIDbContext.UserDetail.Add(newUserDetail);
                     _cIDbContext.SaveChanges();

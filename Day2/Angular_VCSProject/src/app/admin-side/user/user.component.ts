@@ -52,7 +52,7 @@ export class UserComponent implements OnInit {
           this.toast.success({detail:"SUCCESS",summary:data.data,duration:3000});
           setTimeout(() => {
             this.deleteModal.hide();
-          window.location.reload();
+            window.location.reload();
           }, 1000);
       }
       else{

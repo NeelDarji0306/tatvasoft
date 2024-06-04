@@ -24,4 +24,10 @@
     <ProjectReference Include="..\Data_Access_Layer\Data_Access_Layer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WWWRoot\" />
+    <Folder Include="wwwroot\Uploads\MissionDoc\" />
+    <Folder Include="wwwroot\Uploads\Mission\" />
+  </ItemGroup>
+
 </Project>
