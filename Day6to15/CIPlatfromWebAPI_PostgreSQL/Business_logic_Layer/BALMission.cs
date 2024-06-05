@@ -59,5 +59,31 @@ namespace Business_logic_Layer
         {
             return await _dalMission.GetMissionThemesAsync();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public List<Missions> ClientSideMissionList(int userId)
+        {
+            return _dalMission.ClientSideMissionList(userId);
+        }
+
     }
 }

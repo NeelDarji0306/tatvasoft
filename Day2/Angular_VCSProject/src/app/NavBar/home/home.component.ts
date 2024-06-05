@@ -71,7 +71,8 @@ export class HomeComponent implements OnInit {
       {
         this.missionList = data.data;
         this.missionList = this.missionList.map(x=> {
-          var missionimg=x.missionImages ? this.service.imageUrl + '/' + x.missionImages : 'assets/NoImg.png';
+          console.log(x.missionImages);
+          var missionimg=x.missionImages ? this.service.imageUrl + '/' + x.missionImages.replaceAll('\\','/').split("wwwroot")[1] : 'assets/NoImg.png';
           this.rating3 =  x.rating;
           return {
             id:x.id,

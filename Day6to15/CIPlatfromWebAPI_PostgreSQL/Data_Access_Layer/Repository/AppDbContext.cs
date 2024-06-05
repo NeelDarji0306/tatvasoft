@@ -18,5 +18,8 @@ namespace Data_Access_Layer.Repository
         public DbSet<Country> Country { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<Missions> Missions { get; set; }
+        public DbSet<MissionApplication> MissionApplication { get; set; }
+        public DbSet<MissionRating> MissionRating { get; set; }
+        public DbSet<MissionFavourites> MissionFavourites { get; set; }
     }
 }
