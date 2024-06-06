@@ -1,5 +1,6 @@
 ﻿using Business_logic_Layer;
 using Data_Access_Layer.Repository.Entities;
+using Data_Access_Layer.Repository.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,23 @@ namespace Web_API.Controllers
             try
             {
                 result.Data = await _balMission.ApplyMission(missionApplication);
+                result.Result = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                result.Message = ex.Message;
+                result.Result = ResponseStatus.Error;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        [Route("MissionClientList")]
+        public async Task<ResponseResult> MissionClientList(SortMissions sortMissions)
+        {
+            try
+            {
+                result.Data = await _balMission.MissionClientList(sortMissions);
                 result.Result = ResponseStatus.Success;
             }
             catch (Exception ex)

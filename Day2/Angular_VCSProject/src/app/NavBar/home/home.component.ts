@@ -141,9 +141,10 @@ export class HomeComponent implements OnInit {
     let selectedVal = e.target.value;
     selectedVal = selectedVal == '' ? 'null' : selectedVal;
     let value = {
-      userId:this.loginUserId,
+      userId: Number(this.loginUserId),
       sortestValue:selectedVal
     }
+    // console.log(value);
     this.service.MissionClientList(value).subscribe((data:any) => {
       if(data.result == 1)
       {

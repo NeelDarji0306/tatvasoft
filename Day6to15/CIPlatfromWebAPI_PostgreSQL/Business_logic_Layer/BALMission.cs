@@ -105,5 +105,12 @@ namespace Business_logic_Layer
         {
             return await _dalMission.MissionApplicationDelete(id);
         }
+
+        public async Task<List<Missions>> MissionClientList(SortMissions sortMissions)
+        {
+            return await _dalMission.MissionClientList(sortMissions);
+        }
+
+
     }
 }

@@ -421,5 +421,100 @@ namespace Data_Access_Layer
             }
             return result;
         }
+
+        public async Task<List<Missions>> MissionClientList(SortMissions sortMissions)
+        {
+            
+            List<Missions> clientSideMissionList = new List<Missions>();
+            try
+            {
+                var missionsQuery = _cIDbContext.Missions.Where(m => !m.IsDeleted);
+
+                switch (sortMissions.SortestValue)
+                {
+                    case "Newest":
+                        missionsQuery = missionsQuery.OrderByDescending(m => m.CreatedDate);
+                        break;
+                    case "Lowest available seats":
+                        missionsQuery = missionsQuery.OrderBy(m => m.TotalSheets);
+                        break;
+                    case "Highest available seats":
+                        missionsQuery = missionsQuery.OrderByDescending(m => m.TotalSheets);
+                        break;
+                    case "Registration deadline":
+                        missionsQuery = missionsQuery.OrderBy(m => m.RegistrationDeadLine);
+                        break;
+                    case "Oldest":
+                        missionsQuery = missionsQuery.OrderBy(m => m.CreatedDate);
+                        break;
+                    default:
+                        // Default sorting if needed
+                        missionsQuery = missionsQuery.OrderBy(m => m.CreatedDate);
+                        break;
+                }
+
+                var missions = await missionsQuery.ToListAsync();
+
+                foreach (var m in missions)
+                {
+                    var country = await _cIDbContext.Country.FirstOrDefaultAsync(c => c.Id == m.CountryId);
+                    var city = await _cIDbContext.City.FirstOrDefaultAsync(c => c.Id == m.CityId);
+
+                    int.TryParse(m.MissionThemeId.ToString(), out int missionThemeId);
+                    var missionTheme = await _cIDbContext.MissionTheme.FirstOrDefaultAsync(ms => ms.Id == missionThemeId);
+
+                    /*int.TryParse(m.MissionSkillId.ToString(), out int missionSkillId);*/
+                    var ids = m.MissionSkillId.Split(',').Select(int.Parse).ToList();
+                    var skillNames = await _cIDbContext.MissionSkill
+                        .Where(ms => ids.Contains(ms.Id))
+                        .Select(ms => ms.SkillName)
+                        .ToListAsync();
+
+                    var missionRating = await _cIDbContext.MissionRating.FirstOrDefaultAsync(mr => mr.MissionId == m.Id && mr.UserId == sortMissions.UserId);
+
+                    clientSideMissionList.Add(new Missions
+                    {
+                        Id = m.Id,
+                        CountryId = m.CountryId,
+                        CountryName = country?.CountryName,
+                        CityId = m.CityId,
+                        CityName = city?.CityName,
+                        MissionTitle = m.MissionTitle,
+                        MissionDescription = m.MissionDescription,
+                        MissionOrganisationName = m.MissionOrganisationName,
+                        MissionOrganisationDetail = m.MissionOrganisationDetail,
+                        TotalSheets = m.TotalSheets,
+                        RegistrationDeadLine = m.RegistrationDeadLine,
+                        MissionThemeId = m.MissionThemeId,
+                        MissionThemeName = missionTheme?.ThemeName,
+                        MissionImages = m.MissionImages,
+                        MissionDocuments = m.MissionDocuments,
+                        MissionSkillId = m.MissionSkillId,
+                        MissionSkillName = skillNames != null ? string.Join(",", skillNames) : string.Empty,
+                        MissionAvilability = m.MissionAvilability,
+                        MissionVideoUrl = m.MissionVideoUrl,
+                        MissionType = m.MissionType,
+                        StartDate = m.StartDate,
+                        EndDate = m.EndDate,
+                        MissionStatus = m.RegistrationDeadLine < DateTime.Now.AddDays(-1) ? "Closed" : "Available",
+                        MissionApplyStatus =  _cIDbContext.MissionApplication.Any(ma => ma.MissionId == m.Id && ma.UserId == sortMissions.UserId && !ma.IsDeleted) ? "Applied" : "Apply", 
+                        MissionApproveStatus = await _cIDbContext.MissionApplication.AnyAsync(ma => ma.MissionId == m.Id && ma.UserId == sortMissions.UserId && ma.Status == true && !ma.IsDeleted) ? "Approved" : "Applied",
+                        MissionDateStatus = m.EndDate <= DateTime.Now.AddDays(-1) ? "MissionEnd" : "MissionRunning",
+                        MissionDeadLineStatus = m.RegistrationDeadLine <= DateTime.Now.AddDays(-1) ? "Closed" : "Running",
+                        MissionFavouriteStatus = await _cIDbContext.MissionFavourites.AnyAsync(mf => mf.MissionId == m.Id && mf.UserId == sortMissions.UserId) ? "1" : "0",
+                        Rating = missionRating?.Rating ?? 0,
+                        CreatedDate = m.CreatedDate,
+                        ModifiedDate = m.ModifiedDate,
+                        IsDeleted = m.IsDeleted,
+
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return clientSideMissionList;
+        }
     }
 }
