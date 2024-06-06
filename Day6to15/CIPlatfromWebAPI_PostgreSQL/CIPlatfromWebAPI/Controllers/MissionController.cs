@@ -201,5 +201,70 @@ namespace Web_API.Controllers
             }
             return result;
         }
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet]
+        [Route("MissionApplicationList")]
+        public async Task<ResponseResult> MissionApplicationList()
+        {
+            try
+            {
+                result.Data = await _balMission.GetMissionApplicationList();
+                result.Result = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ResponseStatus.Error;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+
+
+        [HttpPost]
+        [Route("MissionApplicationApprove")]
+        public async Task<ResponseResult> MissionApplicationApprove(MissionApplication missionApplication)
+        {
+            try
+            {
+                result.Data = await _balMission.MissionApplicationApprove(missionApplication);
+                result.Result = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ResponseStatus.Error;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+            
+
+        [HttpPost]
+        [Route("MissionApplicationDelete")]
+        public async Task<ResponseResult> MissionApplicationDelete(MissionApplication missionApplication)
+        {
+            try
+            {
+                result.Data = await _balMission.MissionApplicationDelete(missionApplication.Id);
+                result.Result = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ResponseStatus.Error;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
     }
 }

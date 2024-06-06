@@ -71,6 +71,7 @@ export class AdminloginService {
   }
 
   public getCurrentUser(){
+    // console.log(this.currentUser)
     return this.currentUser.asObservable();
   }
   public setCurrentUser(userDetail:any){

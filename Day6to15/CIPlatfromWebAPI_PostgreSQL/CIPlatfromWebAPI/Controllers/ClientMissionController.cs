@@ -19,11 +19,28 @@ namespace Web_API.Controllers
 
         [HttpGet]
         [Route("ClientSideMissionList/{userId}")]
-        public ResponseResult ClientSideMissionList(int userId)
+        public async Task<ResponseResult> ClientSideMissionList(int userId)
         {
             try
             {
-                result.Data = _balMission.ClientSideMissionList(userId);
+                result.Data = await _balMission.ClientSideMissionList(userId);
+                result.Result = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                result.Message = ex.Message;
+                result.Result = ResponseStatus.Error;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        [Route("ApplyMission")]
+        public async Task<ResponseResult> ApplyMission(MissionApplication missionApplication)
+        {
+            try
+            {
+                result.Data = await _balMission.ApplyMission(missionApplication);
                 result.Result = ResponseStatus.Success;
             }
             catch (Exception ex)

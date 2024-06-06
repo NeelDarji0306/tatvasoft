@@ -12,6 +12,7 @@ namespace Web_API.Controllers
     public class AdminUserController : ControllerBase
     {
         private readonly BALAdminUser _balAdminUser;
+        ResponseResult result = new ResponseResult();
 
         public AdminUserController(BALAdminUser balAdminUser)
         {
@@ -62,5 +63,8 @@ namespace Web_API.Controllers
                 return StatusCode(500, new ResponseResult { Result = ResponseStatus.Error, Message = ex.Message });
             }
         }
+
+
+
     }
 }

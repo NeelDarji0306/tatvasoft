@@ -49,6 +49,8 @@ export class HomeComponent implements OnInit {
     this.adminservice.getCurrentUser().subscribe((data:any)=>{
 
       let loginUserDetail = this.adminservice.getUserDetail();
+      console.log(loginUserDetail)
+
       data == null ? (this.loginUserId = loginUserDetail.userId) : (this.loginUserId = data.userId);
       data == null ? (this.loginUserName = loginUserDetail.fullName) : (this.loginUserName = data.fullName);
       data == null ? (this.loginemailAddress = loginUserDetail.emailAddress) : (this.loginemailAddress = data.emailAddress);
@@ -71,7 +73,6 @@ export class HomeComponent implements OnInit {
       {
         this.missionList = data.data;
         this.missionList = this.missionList.map(x=> {
-          console.log(x.missionImages);
           var missionimg=x.missionImages ? this.service.imageUrl + '/' + x.missionImages.replaceAll('\\','/').split("wwwroot")[1] : 'assets/NoImg.png';
           this.rating3 =  x.rating;
           return {
@@ -96,6 +97,17 @@ export class HomeComponent implements OnInit {
             missionApproveStatus:x.missionApproveStatus,
             missionDateStatus:x.missionDateStatus,
             missionDeadLineStatus:x.missionDeadLineStatus,
+            createdDate:x.createdDate,
+            modifiedDate:x.modifiedDate,
+            rating:x.rating,
+            missionDocuments:x.missionDocuments,
+            missionAvilability:x.missionAvilability,
+            missionFavouriteStatus:x.missionFavouriteStatus,
+            missionOrganisationDetail:x.missionOrganisationDetail,
+            missionOrganisationName:x.missionOrganisationName,
+            missionType:x.missionType,
+            missionVideoUrl:x.missionVideoUrl,
+
           }
         });
         this.totalMission = data.data.length;
@@ -137,7 +149,7 @@ export class HomeComponent implements OnInit {
       {
         this.missionList = data.data;
         this.missionList = this.missionList.map(x=> {
-          var missionimg=x.missionImages ? this.service.imageUrl + '/' + x.missionImages : 'assets/NoImg.png';
+          var missionimg=x.missionImages ? this.service.imageUrl + '/' + x.missionImages.replaceAll('\\','/').split("wwwroot")[1] : 'assets/NoImg.png';
           return {
             id:x.id,
             missionTitle:x.missionTitle,
@@ -160,6 +172,17 @@ export class HomeComponent implements OnInit {
             missionApproveStatus:x.missionApproveStatus,
             missionDateStatus:x.missionDateStatus,
             missionDeadLineStatus:x.missionDeadLineStatus,
+            createdDate:x.createdDate,
+            modifiedDate:x.modifiedDate,
+            rating:x.rating,
+            missionDocuments:x.missionDocuments,
+            missionAvilability:x.missionAvilability,
+            missionFavouriteStatus:x.missionFavouriteStatus,
+            missionOrganisationDetail:x.missionOrganisationDetail,
+            missionOrganisationName:x.missionOrganisationName,
+            missionType:x.missionType,
+            missionVideoUrl:x.missionVideoUrl,
+
           }
         });
         this.totalMission = data.data.length;
@@ -213,19 +236,20 @@ export class HomeComponent implements OnInit {
   {
     let value={
       missionId:this.missionData.id,
-      userId:this.loginUserId,
+      userId:Number(this.loginUserId),
       appliedDate:moment().format("yyyy-MM-DDTHH:mm:ssZ"),
-     status:false,
+      status:false,
       sheet:1
     };
+    console.log(value);
       this.service.ApplyMission(value).subscribe((data:any)=>{
           if(data.result == 1)
           {
             this.toast.success({detail:"SUCCESS",summary:data.data});
             setTimeout(() => {
               this.missionData.totalSheets = this.missionData.totalSheets - 1;
+              // window.location.reload();
             }, 1000);
-            window.location.reload();
           }
           else
           {

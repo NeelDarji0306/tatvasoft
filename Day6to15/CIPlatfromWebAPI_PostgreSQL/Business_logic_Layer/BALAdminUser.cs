@@ -26,5 +26,6 @@ namespace Business_logic_Layer
         {
             return await _dalAdminUser.DeleteUserAndUserDetailAsync(userId);
         }
+
     }
 }

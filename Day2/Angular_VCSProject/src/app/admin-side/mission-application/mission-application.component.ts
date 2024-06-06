@@ -29,6 +29,7 @@ export class MissionApplicationComponent implements OnInit {
       if(data.result == 1)
       {
           this.applicationList = data.data;
+          console.log(this.applicationList);  
       }
       else
       {
@@ -55,6 +56,7 @@ export class MissionApplicationComponent implements OnInit {
     );
   }
   DeleteMissionApplication(value: any) {
+    console.log(value);
     this.service.MissionApplicationDelete(value).subscribe(
       (data: any) => {
         if (data.result == 1) {

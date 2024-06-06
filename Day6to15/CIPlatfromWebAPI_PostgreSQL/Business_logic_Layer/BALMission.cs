@@ -80,10 +80,30 @@ namespace Business_logic_Layer
 
 
 
-        public List<Missions> ClientSideMissionList(int userId)
+        public async Task<List<Missions>> ClientSideMissionList(int userId)
         {
-            return _dalMission.ClientSideMissionList(userId);
+            return await _dalMission.ClientSideMissionList(userId);
         }
 
+        public async Task<string> ApplyMission(MissionApplication missionApplication)
+        {
+            return await _dalMission.ApplyMission(missionApplication);
+        }
+
+
+        public async Task<List<MissionApplication>> GetMissionApplicationList()
+        {
+            return await _dalMission.GetMissionApplicationList();
+        }
+
+        public async Task<string> MissionApplicationApprove(MissionApplication missionApplication)
+        {
+            return await _dalMission.MissionApplicationApprove(missionApplication);
+        }
+
+        public async Task<string> MissionApplicationDelete(int id)
+        {
+            return await _dalMission.MissionApplicationDelete(id);
+        }
     }
 }
