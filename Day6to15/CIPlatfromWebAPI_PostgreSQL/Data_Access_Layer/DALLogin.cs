@@ -85,7 +85,7 @@ namespace Data_Access_Layer
                                     EmailAddress = u.EmailAddress,
                                     UserType = u.UserType,
                                     Password = u.Password,
-                                    UserImage = userDetail.UserImage
+                                    UserImage = userDetail.UserImage == null ? "" : userDetail.UserImage
                                 };
 
                     var userData = query.FirstOrDefault();

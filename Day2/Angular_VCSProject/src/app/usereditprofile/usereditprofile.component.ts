@@ -138,14 +138,16 @@ export class UsereditprofileComponent implements OnInit {
     this.service.GetUserSkill(this.loginUserId).subscribe((data:any)=>{debugger;
       if(data.result == 1)
       {
-        if(data.data.length > 0){
-          this.userSkillList = data.data.split(',');
-          // console.log(data.data);
-          // this.userSkillList = this.userSkillList[0].text.split(',');
-        }
-        else
-        {
-          this.userSkillList = this.data1;
+        if(data.data){
+          if(data.data.length > 0){
+            this.userSkillList = data.data.split(',');
+            // console.log(data.data);
+            // this.userSkillList = this.userSkillList[0].text.split(',');
+          }
+          else
+          {
+            this.userSkillList = this.data1;
+          }
         }
       }
       else
