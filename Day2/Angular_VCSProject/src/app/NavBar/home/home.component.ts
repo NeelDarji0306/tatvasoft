@@ -249,7 +249,7 @@ export class HomeComponent implements OnInit {
             this.toast.success({detail:"SUCCESS",summary:data.data});
             setTimeout(() => {
               this.missionData.totalSheets = this.missionData.totalSheets - 1;
-              // window.location.reload();
+              window.location.reload();
             }, 1000);
           }
           else

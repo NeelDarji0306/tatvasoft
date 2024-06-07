@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
           {
             if(res.data.message == "Login Successfully")
             {
+              console.log(res.data.data)
               this.service.setToken(res.data.data);
               let tokenpayload = this.service.decodedToken();
               this.service.setCurrentUser(tokenpayload);

@@ -53,15 +53,15 @@ namespace Data_Access_Layer.Repository.Entities
         [NotMapped]
         public int UId { get; set; }
         [NotMapped]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
         [NotMapped]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
         [NotMapped]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         [NotMapped]
-        public string EmailAddress { get; set; }
+        public string? EmailAddress { get; set; }
         [NotMapped]
-        public string UserType { get; set; }
+        public string? UserType { get; set; }
     }
 
     public class ForgotPassword

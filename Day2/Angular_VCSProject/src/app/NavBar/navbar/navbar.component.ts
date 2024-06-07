@@ -18,11 +18,12 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.service.getCurrentUser().subscribe((data:any)=>{
       let userName = this.service.getUserDetail();
+      console.log(userName)
       if(userName != null || data != null){
         this.isLogin = true;
         data == null ? (this.userDetail = userName.fullName) : (this.userDetail = data.fullName);
         data == null ? (this.loginUserId = userName.userId) : (this.loginUserId = data.userId);
-        data == null ? (this.userImage = this.service.imageUrl + '/' + userName.userImage) : (this.userImage = this.service.imageUrl + '/' + data.userImage);
+        data == null ? (this.userImage = this.service.imageUrl + '/' + userName.userImage.replaceAll('\\','/').split("wwwroot")[1]) : (this.userImage = this.service.imageUrl + '/' + data.userImage.replaceAll('\\','/').split("wwwroot")[1]);
       }
     });
     var tokenDetail = this.service.decodedToken();

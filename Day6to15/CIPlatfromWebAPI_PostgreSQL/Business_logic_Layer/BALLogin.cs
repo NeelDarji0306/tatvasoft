@@ -111,7 +111,20 @@ namespace Business_logic_Layer
         {
             return await _dalLogin.UpdateUserAsync(user);
         }
+        
+        public async Task<string> LoginUserProfileUpdate(UserDetail userDetail)
+        {
+            return await _dalLogin.LoginUserProfileUpdate(userDetail);
+        }
 
+        public async Task<UserDetail> GetUserProfileDetailById(int userId)
+        {
+            return await _dalLogin.GetUserProfileDetailById(userId);
+        }
 
+        public async Task<string> ChangePassword(ChangePassModel changePass)
+        {
+            return await _dalLogin.ChangePassword(changePass);
+        }
     }
 }

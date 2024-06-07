@@ -107,32 +107,41 @@ export class UsereditprofileComponent implements OnInit {
       this.skillList1 = data1;
     }
   }
+
+  // 2
   SaveSkill(){
-    let value = {
-      skill:this.skillList1.join(','),
-      userId:this.loginUserId
-    }
-    this.service.AddUserSkill(value).subscribe((data:any)=>{
-        if(data.result == 1)
-        {
-          this.toast.success({detail:"SUCCESS",summary:data.data});
-          setTimeout(() => {
-            this.CloseAddYourSkillModal();
-          }, 1000);
-        }
-        else
-        {
-          this.toast.error({detail:"ERROR",summary:data.message});
-        }
-    },err=>this.toast.error({detail:"ERROR",summary:err.message}));
+    
+    let formValue = this.userProfileForm.value;
+    formValue.mySkills = this.skillList1;
+    this.CloseAddYourSkillModal();
+    // let value = {
+    //   skill:this.skillList1.join(','),
+    //   userId:this.loginUserId
+    // }
+    // this.service.AddUserSkill(value).subscribe((data:any)=>{
+    //     if(data.result == 1)
+    //     {
+    //       let formValue = this.userProfileForm.value;
+    //       formValue.mySkills = this.skillList1;
+    //       this.toast.success({detail:"SUCCESS",summary:data.data});
+    //       setTimeout(() => {
+    //         this.CloseAddYourSkillModal();
+    //       }, 1000);
+    //     }
+    //     else
+    //     {
+    //       this.toast.error({detail:"ERROR",summary:data.message});
+    //     }
+    // },err=>this.toast.error({detail:"ERROR",summary:err.message}));
   }
   GetUserSkill(){
     this.service.GetUserSkill(this.loginUserId).subscribe((data:any)=>{debugger;
       if(data.result == 1)
       {
         if(data.data.length > 0){
-          this.userSkillList = data.data;
-          this.userSkillList = this.userSkillList[0].text.split(',');
+          this.userSkillList = data.data.split(',');
+          // console.log(data.data);
+          // this.userSkillList = this.userSkillList[0].text.split(',');
         }
         else
         {
@@ -228,6 +237,7 @@ export class UsereditprofileComponent implements OnInit {
       this.service.GetUserProfileDetailById(id).subscribe((data:any)=>{
             if(data.result == 1)
             {
+              // console.log(data.data);
               this.editData = data.data;
               if(this.editData != undefined)
               {
@@ -245,7 +255,7 @@ export class UsereditprofileComponent implements OnInit {
                   cityId:[this.editData.cityId,Validators.compose([Validators.required])],
                   avilability:[this.editData.avilability],
                   linkdInUrl:[this.editData.linkdInUrl],
-                  mySkills:[this.editData.mySkills.split(','),Validators.compose([Validators.required])],
+                  mySkills:[this.editData.mySkills?.split(','),Validators.compose([Validators.required])],
                   userImage:[''],
                   userId:[this.editData.userId]
                 });
@@ -253,7 +263,7 @@ export class UsereditprofileComponent implements OnInit {
                   this.cityList = data.data;
                 });
                 if(this.editData.userImage){
-                  this.userImage = this.service.imageUrl + '/' + this.editData.userImage
+                  this.userImage = this.service.imageUrl + '/' + this.editData.userImage.replaceAll('\\','/').split("wwwroot")[1]
                 }
               }
               // else
@@ -286,31 +296,38 @@ export class UsereditprofileComponent implements OnInit {
   }
 
   async OnSubmit(){
-
+    // console.log(this.userProfileForm.value);
     let imageUrl = '';
     let formValue = this.userProfileForm.value;
     formValue.userId = this.userId;
     if(this.userProfileForm.valid)
     {
+    // console.log(this.userProfileForm.value);
+
       if(this.isFileUpload)
       {
-        await this.service.UploadImage(this.formData).pipe().toPromise().then((res:any)=>{
-            if(res.success)
-            {
-              imageUrl = res.data[0];
-            }
-        },err=>{this.toast.error({detail:"ERROR",summary:err.message,duration:3000})});
+      // console.log(this.userProfileForm.value);
+
+        await this.service.UploadImage(this.formData).pipe().toPromise().then((res: any) => {
+          if (res.result == 1) {
+            imageUrl = res.data;
+          }
+        }, err => { this.toast.error({ detail: "ERROR", summary: err.message, duration: 3000 }) });
+      
       }
       if(this.isFileUpload)
       {
-        formValue.userImage = imageUrl;
+        
+      formValue.userImage = imageUrl[0];
       }
       else{
         formValue.userImage = this.editData.userImage;
       }
 
+      console.log(formValue.UserImage);
       var mySkillLists = formValue.mySkills.join(",");
       formValue.mySkills = mySkillLists;
+      console.log(formValue);
       formValue.status = true;
       this.service.LoginUserProfileUpdate(formValue).subscribe((res:any)=>{
         if(res.result == 1)
@@ -334,6 +351,7 @@ export class UsereditprofileComponent implements OnInit {
   contactUs:ContactUs = new ContactUs();
   changePass:ChangePassword = new ChangePassword();
 
+  //3
   OnSubmitContactUs(form:NgForm){
     form.value.userId = this.contactUs.userId;
     form.value.name = this.contactUs.name;
@@ -358,9 +376,11 @@ export class UsereditprofileComponent implements OnInit {
     return fc.get('newPassword')?.value === fc.get('confirmPassword')?.value ? null : {notmatched : true}
   }
 
+  //1
   OnSubmitChangePassword(changePasswordForm:NgForm){
     var value = changePasswordForm.value;
-    value.userId = this.loginUserId;
+    value.userId = Number(this.loginUserId);
+    // console.log(value);
     if(changePasswordForm.valid)
     {
           this.loginService.ChangePassword(value).subscribe((data:any)=>{
@@ -397,7 +417,7 @@ export class UsereditprofileComponent implements OnInit {
   }
   CloseAddYourSkillModal(){
     this.addyourSkillModal.hide();
-    window.location.reload();
+    // window.location.reload();
   }
   OpenContactUsModal(){
     this.contactUsModal.show();

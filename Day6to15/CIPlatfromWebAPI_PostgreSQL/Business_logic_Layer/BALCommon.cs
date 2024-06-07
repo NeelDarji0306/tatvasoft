@@ -27,5 +27,9 @@ namespace Business_logic_Layer
             return await _dalCommon.GetCitiesAsync(id);
         }
 
+        public async Task<string> GetUserSkill(int userId)
+        {
+            return await _dalCommon.GetUserSkill(userId);
+        }
     }
 }

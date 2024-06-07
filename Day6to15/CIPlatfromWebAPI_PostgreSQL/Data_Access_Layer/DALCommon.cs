@@ -28,6 +28,28 @@ namespace Data_Access_Layer
             return await _cIDbContext.City.Where(x => x.CountryId == id).ToListAsync();
         }
 
-        /* Upload Image */
+
+
+        public async Task<string> GetUserSkill(int userId)
+        {
+           string skillList = String.Empty;
+            try
+            {
+                UserDetail userDetail = await _cIDbContext.UserDetail.FirstAsync(x => x.UserId == userId && !x.IsDeleted);
+                if (userDetail != null)
+                {
+                    if (userDetail.MySkills != null && userDetail.MySkills.Length > 0)
+                    {
+                        skillList = userDetail.MySkills;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
+
+            return skillList;
+        }
     }
 }

@@ -98,5 +98,22 @@ namespace Web_API.Controllers
                 return BadRequest(new ResponseResult() { Message = ex.Message, Result = ResponseStatus.Success });
             }
         }
+
+        [HttpGet]
+        [Route("GetUserSkill/{userId}")]
+        public async Task<ResponseResult> GetUserSkill(int userId)
+        {
+            try
+            {
+                result.Data = await _balCommon.GetUserSkill(userId);
+                result.Result = ResponseStatus.Success;
+            }
+            catch(Exception ex)
+            {
+                result.Result = ResponseStatus.Error;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
     }
 }

@@ -180,9 +180,9 @@
                   >
                     <option
                       *ngFor="let item of countryList"
-                      value="{{ item.value }}"
+                      value="{{ item.id }}"
                     >
-                      {{ item.text }}
+                      {{ item.countryName }}
                     </option>
                   </select>
                   <span
@@ -200,11 +200,8 @@
                   >
                   <select class="form-select" formControlName="cityId">
                     <option value="">Select City</option>
-                    <option
-                      *ngFor="let item of cityList"
-                      value="{{ item.value }}"
-                    >
-                      {{ item.text }}
+                    <option *ngFor="let item of cityList" value="{{ item.id }}">
+                      {{ item.cityName }}
                     </option>
                   </select>
                   <span
@@ -294,6 +291,7 @@
                 <button
                   class="btn-skill"
                   type="button"
+                  (click)="OpenAddYourSkillModal()"
                   (click)="OpenAddYourSkillModal()"
                 >
                   <span class="Skill">Add Skill</span>
